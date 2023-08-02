@@ -3,7 +3,7 @@ const getArgs = (args = []) => {
   const rest = args.slice(2);
 
   rest.forEach((val, idx, arr) => {
-    if (val.charAt() === "-") {
+    if (val.charAt(0) === "-") {
       if (idx === arr.length - 1) {
         res[val.substring(1)] = true;
       } else if (arr[idx + 1].charAt(0) !== "-") {
