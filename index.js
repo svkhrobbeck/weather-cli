@@ -1,10 +1,11 @@
 import getArgs from "./helpers/args.js";
 import { getWeather } from "./services/api.service.js";
 import { printErr, printHelp, printSuccess } from "./services/log.service.js";
-import { keys, saveKeyValue } from "./services/storage.service.js";
+import { getKeyValue, keys, saveKeyValue } from "./services/storage.service.js";
 
 const saveToken = async token => {
-  if (!token.length) return printErr("Token is not exist");
+  if (!token.length) return printErr("Token does not exist");
+
   try {
     await saveKeyValue(keys.token, token);
     printSuccess("Token saved");
@@ -13,10 +14,16 @@ const saveToken = async token => {
   }
 };
 
-const startCli = () => {
-  const args = getArgs(process.argv);
+const saveCity = async city => {
+  if (!city.length) return printErr("City does not exist");
 
-  if (args.h) printHelp();
+  try {
+    await saveKeyValue(keys.city, city);
+    printSuccess("City saved");
+  } catch (err) {
+    printErr(err.message);
+  }
+};
 
   if (args.s) {
     // save city
