@@ -1,6 +1,6 @@
 import getArgs from "./helpers/args.js";
-import { getWeather } from "./services/api.service.js";
-import { printErr, printHelp, printSuccess } from "./services/log.service.js";
+import { getIcons, getWeather } from "./services/api.service.js";
+import { printErr, printHelp, printSuccess, printWeather } from "./services/log.service.js";
 import { getKeyValue, keys, saveKeyValue } from "./services/storage.service.js";
 
 const saveToken = async token => {
@@ -30,14 +30,14 @@ const getForecast = async () => {
 
   try {
     const data = await getWeather(city);
-    console.log(data);
+    printWeather(data, getIcons(data.weather[0].icon));
   } catch (err) {
     if (err?.response?.status == 404) printErr("City not found");
     else if (err?.response?.status === 401) printErr(err.message);
   }
 };
 
-const startCli = () => {
+const startWeatherApp = () => {
   const args = getArgs(process.argv);
 
   if (args.h) printHelp();
@@ -47,4 +47,4 @@ const startCli = () => {
   getForecast();
 };
 
-startCli();
+startWeatherApp();
