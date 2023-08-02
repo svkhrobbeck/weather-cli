@@ -25,11 +25,26 @@ const saveCity = async city => {
   }
 };
 
-  if (args.s) {
-    // save city
-  }
+const getForecast = async () => {
+  const city = process.env.CITY ?? (await getKeyValue(keys.city));
 
+  try {
+    const data = await getWeather(city);
+    console.log(data);
+  } catch (err) {
+    if (err?.response?.status == 404) printErr("City not found");
+    else if (err?.response?.status === 401) printErr(err.message);
+  }
+};
+
+const startCli = () => {
+  const args = getArgs(process.argv);
+
+  if (args.h) printHelp();
+  if (args.s) return saveCity(args.s);
   if (args.t) return saveToken(args.t);
+
+  getForecast();
 };
 
 startCli();
