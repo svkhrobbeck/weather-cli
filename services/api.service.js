@@ -13,7 +13,6 @@ const getWeather = async city => {
 
   // https.get(url, res => {
   //   let result = "";
-
   //   res.on("data", chunk => (res += chunk));
   //   res.on("end", () => console.log(JSON.parse(result)));
   // });
@@ -21,6 +20,8 @@ const getWeather = async city => {
   const { data } = await axios.get("https://api.openweathermap.org/data/2.5/weather", {
     params: { q: city, appid: token, units: "metric", lang: "en" },
   });
+
+  return data;
 };
 
 export { getWeather };
