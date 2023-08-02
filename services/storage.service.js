@@ -2,6 +2,8 @@ import os from "os";
 import path from "path";
 import fs from "fs";
 
+const keys = { token: "token", city: "city" };
+
 const filePath = path.join(os.homedir(), "weather-data.json");
 
 const saveKeyValue = async (key, value) => {
@@ -28,11 +30,11 @@ const isExist = async path => {
 const getKeyValue = async key => {
   if (await isExist(filePath)) {
     const file = await fs.promises.readFile(filePath);
-    const data = JSON.parse(file);
+    const data = await JSON.parse(file);
     return data[key];
   }
 
   return undefined;
 };
 
-export { saveKeyValue, getKeyValue };
+export { saveKeyValue, getKeyValue, keys };
